@@ -6,6 +6,56 @@ import torch
 import spaces
 import os
 
+import os
+import re
+
+def list_ordered_image_paths(folder_path):
+    # Initialize an empty list to store image paths
+    image_paths = []
+
+    # Regex pattern to match files like "panel_1.png", "panel_2.png", etc.
+    pattern = re.compile(r'panel_(\d+)\.png')
+
+    # Check if the folder exists
+    if not os.path.exists(folder_path):
+        print("The specified folder does not exist.")
+        return image_paths
+
+    # Iterate over all files in the folder
+    for filename in os.listdir(folder_path):
+        # Get the full file path
+        file_path = os.path.join(folder_path, filename)
+
+        # Match files with the pattern "panel_X.png"
+        match = pattern.match(filename)
+        if match:
+            # Extract the panel number and add it to the list with its path
+            panel_number = int(match.group(1))
+            image_paths.append((panel_number, file_path))
+
+    # Sort by panel number
+    image_paths.sort()
+
+    # Return only the file paths in sorted order
+    return [path for _, path in image_paths]
+
+def get_all_files(folder_path):
+    # Initialize an empty list to store image paths
+    image_paths = []
+
+    # Check if the folder exists
+    if not os.path.exists(folder_path):
+        print("The specified folder does not exist.")
+        return image_paths
+
+    # Iterate over all files in the folder
+    for filename in os.listdir(folder_path):
+        # Get the full file path
+        file_path = os.path.join(folder_path, filename)
+        image_paths.append(file_path)
+    # Return only the file paths in sorted order
+    return image_paths
+
 model = AutoModel.from_pretrained("ragavsachdeva/magiv2", trust_remote_code=True, force_download=True)
 model = model.cuda().eval()
 
