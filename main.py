@@ -5,6 +5,9 @@ from manga import ai
 from cut import crop
 from TTS import tts
 import os
+from Video import create_video
+def _contains_alphabet(text):
+    return any(char.isalpha() for char in text)
 
 logger = get_logger("Main")
 manga = "Seraph of the end"
@@ -22,7 +25,7 @@ characters_data = get_characters_names("character_images")
 
 # Create temporary directory for storing files
 os.makedirs('temp', exist_ok=True)
-def main():
+async def main():
     # Process each page in the chapter
     for index, page in enumerate(Chapter_pages):
         logger.info(f"Processing page {index + 1}/{len(Chapter_pages)}")
@@ -66,10 +69,10 @@ def main():
 
         logger.info(f"Cropping panels for page {index + 1}")
         for i in range(len(x)):
-            if not os.path.exists(f"{dir}/{x[i][1]}"):
-                os.makedirs(f"{dir}/{x[i][1]}",exist_ok=True)
-                logger.debug(temp_panels[x[i][1]])
-                crop([temp_panels[x[i][1]]], image_path=page, path=f"{dir}/{x[i][1]}", panel_index=x[i][1])
+            os.makedirs(f"{dir}/{x[i][1]}",exist_ok=True)
+            logger.debug(temp_panels[x[i][1]])
+            print([temp_panels[x[i][1]]],page,f"{dir}/{x[i][1]}",x[i][1])
+            crop([temp_panels[x[i][1]]], image_path=page, path=f"{dir}/{x[i][1]}", panel_index=x[i][1])
 
         # Generate audio for each text associated with a panel
         for i in x:
@@ -77,8 +80,11 @@ def main():
             text_index = i[0]
             text = data['ocr'][text_index]
             logger.info(f"Generating audio for text: {text} (Panel: {panel_index}, Text Index: {text_index})")
-            asyncio.run(tts(text, saving_path=f"{dir}/{x[i][1]}",index=panel_index))
-
+            if _contains_alphabet(text):  
+                await tts(text, saving_path=f"{dir}/{i[1]}",index=text_index)
+        
+        for i in get_all_directories(dir):
+            create_video(glob.glob(f"{i}/*.png")[0],glob.glob(f"{i}/*.mp3"),output_video=f"{i}/{"output"}")
 logger.info("Processing complete")
 # Run the async main function
 if __name__ == "__main__":

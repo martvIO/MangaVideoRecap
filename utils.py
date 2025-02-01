@@ -56,3 +56,12 @@ if __name__ == "__main__":
     # Print results
     for text_idx, panel_idx in text_panel_associations.items():
         print(f"Text {text_idx} belongs to Panel {panel_idx}")
+
+def get_all_directories(path):
+    # List all items in the given directory
+    all_items = os.listdir(path)
+    
+    # Filter and return only the directories
+    directories = [item for item in all_items if os.path.isdir(os.path.join(path, item))]
+    
+    return directories

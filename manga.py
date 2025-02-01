@@ -11,7 +11,7 @@ def ai(chapter_pages, character_bank):
     model = load_model()
     end = time.time()
     logger.info(f"loading the model took: {end-start}")
-    
+
     chapter_pages = [read_image(x) for x in chapter_pages]
     character_bank["images"] = [read_image(x) for x in character_bank["images"]]
 
@@ -20,7 +20,6 @@ def ai(chapter_pages, character_bank):
         logger.debug(f"per_page_results: {per_page_results}")
     transcript = []
     for i, (image, page_result) in enumerate(zip(chapter_pages, per_page_results)):
-        model.visualise_single_image_prediction(image, page_result, f"page_{i}.png")
         speaker_name = {
             text_idx: page_result["character_names"][char_idx] for text_idx, char_idx in page_result["text_character_associations"]
         }

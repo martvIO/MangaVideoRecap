@@ -55,4 +55,4 @@ def create_video(img_path: str, audio_clips_dir: str, output_video: str) -> None
     video = video.with_fps(24)  # Set frame rate
 
     # Export the video
-    video.write_videofile(output_video, codec="libx264", fps=24)
+    video.write_videofile(f"{output_video}", codec="libx264", fps=24)

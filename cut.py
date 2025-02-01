@@ -1,7 +1,8 @@
 import cv2, os
 
 def crop(panels, image_path: str, path: str, panel_index:int):  # Replace with your image path
-    os.makedirs(path,exist_ok=True)
+    if os.path.exists(f"{path}/{panel_index}"):
+        return None 
     image = cv2.imread(image_path)
     # Convert float to integers for slicing
     panels = [[int(x) for x in panel] for panel in panels]
@@ -18,4 +19,10 @@ def crop(panels, image_path: str, path: str, panel_index:int):  # Replace with y
 
         # Save or display
         cv2.imwrite(f"{path}/{panel_index}.png", cropped)
-        cv2.imshow(f"{path}/{panel_index}.png", cropped)
+
+if __name__ == "__main__":
+    panels = [[70.32527923583984, -1.962268352508545, 751.8159790039062, 592.9677734375]]
+    img_path = "Manga/Seraph of the end/Chapter 1\panel_1.png"
+    path = "temp/Seraph of the end/panel_0/0"
+    ind = 0
+    crop(panels, img_path, path, ind)
