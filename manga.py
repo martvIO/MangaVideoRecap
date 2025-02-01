@@ -44,10 +44,11 @@ with torch.no_grad():
 
 data = per_page_results[0]
 logger.debug(f"data: {data}")
-for i in range(len(data['character_names'])):
-    logger.debug(f"character_names: {data['character_names'][i]}")
-
-
+panels = data['panels']
+texts = [data['ocr'][i[0]] for i in data['text_tail_associations']]
+print(panels,texts)
+t = find_text_panel_associations(panels,texts)
+logger.debug(f"t: {t}")
 transcript = []
 for i, (image, page_result) in enumerate(zip(chapter_pages, per_page_results)):
     model.visualise_single_image_prediction(image, page_result, f"page_{i}.png")
