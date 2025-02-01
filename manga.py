@@ -6,115 +6,37 @@ import torch
 import spaces
 import os
 
-import os
-import re
+model = AutoModel.from_pretrained("ragavsachdeva/magiv2", trust_remote_code=True, force_download=True).cuda().eval()
 
-def list_ordered_image_paths(folder_path):
-    # Initialize an empty list to store image paths
-    image_paths = []
-
-    # Regex pattern to match files like "panel_1.png", "panel_2.png", etc.
-    pattern = re.compile(r'panel_(\d+)\.png')
-
-    # Check if the folder exists
-    if not os.path.exists(folder_path):
-        print("The specified folder does not exist.")
-        return image_paths
-
-    # Iterate over all files in the folder
-    for filename in os.listdir(folder_path):
-        # Get the full file path
-        file_path = os.path.join(folder_path, filename)
-
-        # Match files with the pattern "panel_X.png"
-        match = pattern.match(filename)
-        if match:
-            # Extract the panel number and add it to the list with its path
-            panel_number = int(match.group(1))
-            image_paths.append((panel_number, file_path))
-
-    # Sort by panel number
-    image_paths.sort()
-
-    # Return only the file paths in sorted order
-    return [path for _, path in image_paths]
-
-def get_all_files(folder_path):
-    # Initialize an empty list to store image paths
-    image_paths = []
-
-    # Check if the folder exists
-    if not os.path.exists(folder_path):
-        print("The specified folder does not exist.")
-        return image_paths
-
-    # Iterate over all files in the folder
-    for filename in os.listdir(folder_path):
-        # Get the full file path
-        file_path = os.path.join(folder_path, filename)
-        image_paths.append(file_path)
-    # Return only the file paths in sorted order
-    return image_paths
-
-model = AutoModel.from_pretrained("ragavsachdeva/magiv2", trust_remote_code=True, force_download=True)
-model = model.cuda().eval()
-
-def read_image(image):
-    image = Image.open(image).convert("L").convert("RGB")
-    image = np.array(image)
+def read_image(path_to_image):
+    with open(path_to_image, "rb") as file:
+        image = Image.open(file).convert("L").convert("RGB")
+        image = np.array(image)
     return image
 
-def process_images(chapter_pages, character_bank_images, character_bank_names):
-    if chapter_pages is None:
-        return [], ""
-    if character_bank_images is None:
-        character_bank_images = []
-        character_bank_names = "" 
-    if character_bank_names is None or character_bank_names == "":
-        character_bank_names = ",".join([os.path.splitext(os.path.basename(x))[0] for x in character_bank_images])
-    chapter_pages = [read_image(image) for image in chapter_pages]
-    character_bank = {
-        "images": [read_image(image) for image in character_bank_images],
-        "names": character_bank_names.split(",")
+chapter_pages = ["Manga/panel_1.png"]
+character_bank = {
+    "images": ["character_images/Yuichiro Hyakuya.png", "character_images/Mika.jpeg"],
+    "names": ["Yuichiro Hyakuya", "Mika"]
+}
+
+chapter_pages = [read_image(x) for x in chapter_pages]
+character_bank["images"] = [read_image(x) for x in character_bank["images"]]
+
+with torch.no_grad():
+    per_page_results = model.do_chapter_wide_prediction(chapter_pages, character_bank, use_tqdm=True, do_ocr=True)
+
+transcript = []
+for i, (image, page_result) in enumerate(zip(chapter_pages, per_page_results)):
+    model.visualise_single_image_prediction(image, page_result, f"page_{i}.png")
+    speaker_name = {
+        text_idx: page_result["character_names"][char_idx] for text_idx, char_idx in page_result["text_character_associations"]
     }
-
-    with torch.no_grad():
-        per_page_results = model.do_chapter_wide_prediction(chapter_pages, character_bank, use_tqdm=True, do_ocr=True)
-
-    # Create the 'image_temp' directory if it doesn't exist
-    output_dir = 'image_temp'
-    os.makedirs(output_dir, exist_ok=True)
-
-    output_images = []
-    transcript = []
-    for i, (image, page_result) in enumerate(zip(chapter_pages, per_page_results)):
-        output_image = model.visualise_single_image_prediction(image, page_result, filename=None)
-        output_images.append(output_image)
-        
-        output_image_path = os.path.join(output_dir, f"output_image_{i+1}.png")
-        Image.fromarray(output_image).save(output_image_path)
-        speaker_name = {
-            text_idx: page_result["character_names"][char_idx] for text_idx, char_idx in page_result["text_character_associations"]
-        }
-        temp = []    
-        start = len(transcript)-1
-        for j in range(len(page_result["ocr"])):
-            if not page_result["is_essential_text"][j]:
-                continue
-            name = speaker_name.get(j, "unkown") 
-            transcript.append(f"{name}: {page_result['ocr'][j]}")
-            temp.append(f"{name}: {page_result['ocr'][j]}")
-        
-        #Save transcript text for each page in tmp directory
-        with open(f"tmp/page_{i+1}_transcript.txt", "a") as file:
-            for j in range(len(temp)):
-                file.write(temp[j]+"\n")
-
-    transcript_text = "\n".join(transcript)
-    print(transcript_text)
-    return output_images, transcript_text
-
-images = list_ordered_image_paths("serpah_of_the_end")
-character_bank_images = get_all_files("character_images")
-print(character_bank_images)
-process_images(images,character_bank_images,None)
+    for j in range(len(page_result["ocr"])):
+        if not page_result["is_essential_text"][j]:
+            continue
+        name = speaker_name.get(j, "unsure") 
+        transcript.append(f"<{name}>: {page_result['ocr'][j]}")
+with open(f"transcript.txt", "w") as fh:
+    for line in transcript:
+        fh.write(line + "\n")    
