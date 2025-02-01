@@ -1,5 +1,7 @@
 from moviepy import ImageClip, AudioFileClip, concatenate_audioclips
 import os
+import glob
+
 # Define file paths
 image_path = "panel_1.jpg"  # Your image file
 audio_path = "output.mp3"  # Your audio file
@@ -37,7 +39,7 @@ video.write_videofile(output_video, codec="libx264", fps=24)
 
 def create_video(img_path: str, audio_clips_dir: str, output_video: str) -> None:
     # loading all the audio files from the audio clips directory
-    files = [f"{audio_clips_dir}/{f}" for f in os.listdir(audio_clips_dir) if os.path.isfile(os.path.join(audio_clips_dir, f))]
+    files = glob.glob(f"{audio_clips_dir}/*.mp3")
     
     # Load all audio files
     audio_clips = [AudioFileClip(audio) for audio in files]

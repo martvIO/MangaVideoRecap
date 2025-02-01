@@ -1,5 +1,7 @@
+import os
 from PIL import Image
 import numpy as np
+import glob
 
 def find_text_panel_associations(panels, texts):
     text_panel_map = {}  # Store text index -> panel index mappings
@@ -19,6 +21,16 @@ def read_image(path_to_image):
         image = np.array(image)
     return image
 
+def get_characters_names(path: str):
+    characters = glob.glob(f"path/*")
+    names = [_get_filename(i) for i in characters]
+    print(characters,names)
+
+    data = {"images": characters,"names": names}
+    return data
+
+def _get_filename(file_path):
+    return os.path.splitext(os.path.basename(file_path))[0]
 if __name__ == "__main__":
     # Example Data (Panels and Texts)
     panels = [
