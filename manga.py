@@ -3,8 +3,6 @@ from PIL import Image
 import numpy as np
 from transformers import AutoModel, AutoConfig
 import torch
-import spaces
-import os
 from utils import find_text_panel_associations
 from Logger import get_logger
 logger = get_logger(name="Manga")
