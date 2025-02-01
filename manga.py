@@ -5,14 +5,26 @@ from transformers import AutoModel, AutoConfig
 import torch
 import spaces
 import os
+from utils import find_text_panel_associations
+from Logger import get_logger
+logger = get_logger(name="Manga")
 
-model_name = "ragavsachdeva/magiv2"
+model_name = "ragavsachdeva/magiv2" # this model is used to extract the text and the character's names from a manga panel
+
 try:
+    # loading the model from cache folder
+    logger.info(f"trying to load the model {model_name} from the cache folder")
     model = AutoModel.from_pretrained(f"cache/model/{model_name}", trust_remote_code=True, force_download=True)
 except: 
+    logger.error(f"Failed to load the model {model_name} from the cache folder")
+    # downloading the model from the huggingface model hub
     model = AutoModel.from_pretrained(model_name, trust_remote_code=True, force_download=True)
+    # saving the model in the cache/model folder
     model.save_pretrained(f"cache/model/{model_name}")
-    
+    logger.info(f"Model {model_name} saved to the cache folder")
+
+logger.debug(f"load the model {model_name}")
+
 def read_image(path_to_image):
     with open(path_to_image, "rb") as file:
         image = Image.open(file).convert("L").convert("RGB")
@@ -30,6 +42,13 @@ character_bank["images"] = [read_image(x) for x in character_bank["images"]]
 
 with torch.no_grad():
     per_page_results = model.do_chapter_wide_prediction(chapter_pages, character_bank, use_tqdm=True, do_ocr=True)
+    logger.debug(f"per_page_results: {per_page_results}")
+
+data = per_page_results[0]
+logger.debug(f"data: {data}")
+for i in range(len(data['character_names'])):
+    logger.debug(f"character_names: {data['character_names'][i]}")
+
 
 transcript = []
 for i, (image, page_result) in enumerate(zip(chapter_pages, per_page_results)):
