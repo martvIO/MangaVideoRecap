@@ -6,8 +6,13 @@ import torch
 import spaces
 import os
 
-model = AutoModel.from_pretrained("ragavsachdeva/magiv2", trust_remote_code=True, force_download=True).cuda().eval()
-
+model_name = "ragavsachdeva/magiv2"
+try:
+    model = AutoModel.from_pretrained(f"cache/model/{model_name}", trust_remote_code=True, force_download=True)
+except: 
+    model = AutoModel.from_pretrained(model_name, trust_remote_code=True, force_download=True)
+    model.save_pretrained(f"cache/model/{model_name}")
+    
 def read_image(path_to_image):
     with open(path_to_image, "rb") as file:
         image = Image.open(file).convert("L").convert("RGB")
