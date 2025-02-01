@@ -22,12 +22,17 @@ def read_image(path_to_image):
     return image
 
 def get_characters_names(path: str):
-    characters = glob.glob(f"path/*")
+    characters = glob.glob(f"{path}/*")
+    print(characters)
     names = [_get_filename(i) for i in characters]
     print(characters,names)
 
     data = {"images": characters,"names": names}
     return data
+
+def load_chapter_in_manga(manga: str, chapter: int):
+    paths = glob.glob(f"Manga/{manga}/Chapter {chapter}/*")
+    return paths
 
 def _get_filename(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]

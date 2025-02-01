@@ -1,7 +1,7 @@
 import edge_tts
 import asyncio
 
-async def main(text: str, saving_path: str, index: int, voice: str = 'en-US-EmilyV3Voice'):
+async def tts(text: str, saving_path: str, index: int, voice: str = 'en-US-EmilyV3Voice'):
     tts = edge_tts.Communicate(text, voice=voice)
     
     # Save the speech as an MP3 file

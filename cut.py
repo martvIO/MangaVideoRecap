@@ -1,20 +1,8 @@
-import cv2
+import cv2, os
 
-# Load the image
-image_path = "Manga/panel_1.png"  # Replace with your image path
-image = cv2.imread(image_path)
-
-# Define panel coordinates
-panels = [
-      [
-        70.32527923583984,
-        -1.962268352508545,
-        751.8159790039062,
-        592.9677734375
-      ]
-      ]
-
-def crop(panels):
+def crop(panels, image_path: str, path: str, panel_index:int):  # Replace with your image path
+    os.makedirs(path,exist_ok=True)
+    image = cv2.imread(image_path)
     # Convert float to integers for slicing
     panels = [[int(x) for x in panel] for panel in panels]
 
@@ -29,9 +17,5 @@ def crop(panels):
         cropped = image[y1:y2, x1:x2]
 
         # Save or display
-        cv2.imwrite(f"panel_{i+1}.jpg", cropped)
-        cv2.imshow(f"Panel {i+1}", cropped)
-
-crop(panels)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+        cv2.imwrite(f"{path}/{panel_index}.png", cropped)
+        cv2.imshow(f"{path}/{panel_index}.png", cropped)
