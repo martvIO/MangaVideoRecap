@@ -1,18 +1,11 @@
-import pyttsx3
+import edge_tts
+import asyncio
 
-# Initialize the TTS engine
-engine = pyttsx3.init()
+async def main(text: str, character_name: str,index: int):
+    tts = edge_tts.Communicate(text, voice="en-US-JennyNeural")
+    
+    # Save the speech as an MP3 file
+    await tts.save(f"{character_name}_{index}.mp3")
 
-# Set voice properties (optional)
-engine.setProperty('rate', 150)  # Speed
-engine.setProperty('volume', 1)  # Volume (0.0 to 1.0)
-
-# Convert text to speech
-text = "Hello, this is a free text-to-speech example in Python."
-engine.say(text)
-
-# Save to an audio file (optional)
-engine.save_to_file(text, 'output.mp3')
-
-# Run the speech
-engine.runAndWait()
+# Run the async function
+asyncio.run(main())
