@@ -84,7 +84,9 @@ async def main():
                 await tts(text, saving_path=f"{dir}/{i[1]}",index=text_index)
         
         for i in get_all_directories(dir):
-            create_video(glob.glob(f"{i}/*.png")[0],glob.glob(f"{i}/*.mp3"),output_video=f"{i}/{"output"}")
+            print(get_all_directories(dir))
+            print(glob.glob(f"{i}/*.png"),glob.glob(f"{i}/*.mp3"))
+            create_video(glob.glob(f"{i}/*.png"),glob.glob(f"{i}/*.mp3"),output_video=f"{i}/{"output"}")
 logger.info("Processing complete")
 # Run the async main function
 if __name__ == "__main__":
