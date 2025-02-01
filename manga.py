@@ -45,7 +45,7 @@ with torch.no_grad():
 data = per_page_results[0]
 logger.debug(f"data: {data}")
 panels = data['panels']
-texts = [data['ocr'][i[0]] for i in data['text_tail_associations']]
+texts = [data['texts'][i[0]] for i in data['text_tail_associations']]
 print(panels,texts)
 t = find_text_panel_associations(panels,texts)
 logger.debug(f"t: {t}")
