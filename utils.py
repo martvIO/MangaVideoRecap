@@ -1,3 +1,6 @@
+from PIL import Image
+import numpy as np
+
 def find_text_panel_associations(panels, texts):
     text_panel_map = {}  # Store text index -> panel index mappings
 
@@ -9,6 +12,12 @@ def find_text_panel_associations(panels, texts):
                 break  # Assign the first matching panel and stop
 
     return text_panel_map
+
+def read_image(path_to_image):
+    with open(path_to_image, "rb") as file:
+        image = Image.open(file).convert("L").convert("RGB")
+        image = np.array(image)
+    return image
 
 if __name__ == "__main__":
     # Example Data (Panels and Texts)

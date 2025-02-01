@@ -1,33 +1,11 @@
 import gradio as gr
-from PIL import Image
-import numpy as np
-from transformers import AutoModel, AutoConfig
 import torch
-from utils import find_text_panel_associations
+from model import load_model
+from utils import find_text_panel_associations, read_image
 from Logger import get_logger
 logger = get_logger(name="Manga")
 
-model_name = "ragavsachdeva/magiv2" # this model is used to extract the text and the character's names from a manga panel
-
-try:
-    # loading the model from cache folder
-    logger.info(f"trying to load the model {model_name} from the cache folder")
-    model = AutoModel.from_pretrained(f"cache/model/{model_name}", trust_remote_code=True, force_download=True)
-except: 
-    logger.error(f"Failed to load the model {model_name} from the cache folder")
-    # downloading the model from the huggingface model hub
-    model = AutoModel.from_pretrained(model_name, trust_remote_code=True, force_download=True)
-    # saving the model in the cache/model folder
-    model.save_pretrained(f"cache/model/{model_name}")
-    logger.info(f"Model {model_name} saved to the cache folder")
-
-logger.debug(f"load the model {model_name}")
-
-def read_image(path_to_image):
-    with open(path_to_image, "rb") as file:
-        image = Image.open(file).convert("L").convert("RGB")
-        image = np.array(image)
-    return image
+model = load_model()
 
 chapter_pages = ["Manga/panel_1.png"]
 character_bank = {
