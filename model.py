@@ -9,7 +9,7 @@ def load_model():
     try:
         # loading the model from cache folder
         logger.info(f"trying to load the model {model_name} from the cache folder")
-        model = AutoModel.from_pretrained(f"cache/model/{model_name}", trust_remote_code=True, force_download=True)
+        model = AutoModel.from_pretrained(f"cache/model/{model_name}", device_map = 'cuda' , trust_remote_code=True, force_download=True)
     except: 
         logger.error(f"Failed to load the model {model_name} from the cache folder")
         # downloading the model from the huggingface model hub

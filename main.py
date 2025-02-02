@@ -27,6 +27,7 @@ characters_data = get_characters_names("character_images")
 os.makedirs('temp', exist_ok=True)
 async def main():
     # Process each page in the chapter
+    video_index = 0
     for index, page in enumerate(Chapter_pages):
         logger.info(f"Processing page {index + 1}/{len(Chapter_pages)}")
 
@@ -83,9 +84,9 @@ async def main():
         for i in get_all_directories(dir):
             print(get_all_directories(dir),i)
             print(glob.glob(f"{dir}/{i}/*.png"),glob.glob(f"{dir}/{i}/*.mp3"))
-            create_video(glob.glob(os.path.join(dir, i, "*.png"))[0],glob.glob(f"{dir}/{i}/*.mp3"),output_video=f"{dir}/{i}/output.mp4")
+            create_video(glob.glob(os.path.join(dir, i, "*.png"))[0],glob.glob(f"{dir}/{i}/*.mp3"),output_video=f"temp/{manga}/Chapter {Chapter}/videos/output_{video_index}.mp4")
+            video_index += 1
         
-    combine_videos(f"{dir}",f"{dir}/combined_{Chapter}.mp4")
 logger.info("Processing complete")
 # Run the async main function
 if __name__ == "__main__":

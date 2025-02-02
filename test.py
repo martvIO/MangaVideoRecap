@@ -1,3 +1,4 @@
+import re
 from Logger import get_logger
 import asyncio
 from utils import *
@@ -5,7 +6,7 @@ from manga import ai
 from cut import crop
 from TTS import tts
 import os
-from Video import create_video, combine_videos
+from Video import create_video
 import glob
 
 def _contains_alphabet(text):
@@ -50,8 +51,9 @@ def assign_texts_to_panels(panels, texts, ocr):
     return panel_texts
 
 async def main():
+    vid_index = 0
     # Process each page in the chapter
-    for index, page in enumerate(Chapter_pages):
+    for index, page in enumerate(sorted(Chapter_pages, key=lambda x: int(re.search(r'panel_(\d+)', x).group(1)))):
         logger.info(f"Processing page {index}/{len(Chapter_pages)}")
 
         # Create directory for the current page
@@ -94,14 +96,13 @@ async def main():
         # Generate videos for each panel (after cropping and TTS)
         for panel_idx in range(len(temp_panels)):
             logger.info(f"Creating video for Panel {panel_idx}")
+            os.makedirs(f"temp/{manga}/Chapter {Chapter}/video",exist_ok=True)
             create_video(
                 glob.glob(f"{dir}/{panel_idx}/*.png")[0], 
                 glob.glob(f"{dir}/{panel_idx}/*.mp3"), 
-                output_video=f"{dir}/{panel_idx}/output.mp4"
+                output_video=f"temp/{manga}/Chapter {Chapter}/video/output_{vid_index}.mp4"
             )
-
-        combine_videos(f"{dir}", f"{dir}/combined_{index}.mp4")
-    combine_videos(f"temp/{manga}/Chapter {Chapter}", f"{dir}/combined_{Chapter}.mp4")
+            vid_index += 1
 
 logger.info("Processing complete")
 
