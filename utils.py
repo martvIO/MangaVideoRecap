@@ -6,12 +6,12 @@ import glob
 def find_text_panel_associations(panels, texts):
     text_panel_map = {}  # Store text index -> panel index mappings
 
-    for text_idx, (x1_t, y1_t, x2_t, y2_t) in enumerate(texts):
-        for panel_idx, (x1_p, y1_p, x2_p, y2_p) in enumerate(panels):
+    for panel_idx, (x1_t, y1_t, x2_t, y2_t) in enumerate(panels):
+        for text_idx, (x1_p, y1_p, x2_p, y2_p) in enumerate(texts):
             # Check if text is inside the panel
             if x1_p <= x1_t and y1_p <= y1_t and x2_p >= x2_t and y2_p >= y2_t:
-                text_panel_map[text_idx] = panel_idx
-                break  # Assign the first matching panel and stop
+                text_panel_map[panel_idx] = text_idx
+                break
 
     return text_panel_map
 

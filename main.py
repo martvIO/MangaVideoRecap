@@ -5,13 +5,13 @@ from manga import ai
 from cut import crop
 from TTS import tts
 import os
-from Video import create_video
+from Video import create_video, combine_videos
 def _contains_alphabet(text):
     return any(char.isalpha() for char in text)
 
 logger = get_logger("Main")
 manga = "Seraph of the end"
-
+Chapter = 1
 # Log the start of the process
 logger.info(f"Processing manga: {manga}")
 
@@ -31,22 +31,19 @@ async def main():
         logger.info(f"Processing page {index + 1}/{len(Chapter_pages)}")
 
         # Create directory for the current page
-        dir = f'temp/{manga}/panel_{index}'
+        dir = f'temp/{manga}/Chapter {Chapter}/panel_{index}'
         os.makedirs(dir, exist_ok=True)
 
         # Analyze page using AI
         logger.info(f"Running AI for page {index + 1}")
-        data = ai([page], characters_data)[0]
+        print([str(page)])
+        data = ai([str(page)], characters_data)[0]
         logger.debug(f"AI analysis data: {data}")
 
         # Extract panel information
         temp_panels = data['panels']
-
-        # Extract associated texts
-        texts = [data['texts'][i[0]] for i in data['text_tail_associations']]
-        logger.debug(f"Texts associated with panels: {texts}")
-
-        print(temp_panels, texts)
+        ocr = data['ocr']
+        texts = data['texts']
 
         # Find text-panel associations
         logger.info(f"Finding text-panel associations for page {index + 1}")
@@ -86,7 +83,9 @@ async def main():
         for i in get_all_directories(dir):
             print(get_all_directories(dir),i)
             print(glob.glob(f"{dir}/{i}/*.png"),glob.glob(f"{dir}/{i}/*.mp3"))
-            create_video(glob.glob(f"{dir}/{i}/*.png"),glob.glob(f"{dir}/{i}/*.mp3"),output_video=f"{i}/{"output"}")
+            create_video(glob.glob(os.path.join(dir, i, "*.png"))[0],glob.glob(f"{dir}/{i}/*.mp3"),output_video=f"{dir}/{i}/output.mp4")
+        
+    combine_videos(f"{dir}",f"{dir}/combined_{Chapter}.mp4")
 logger.info("Processing complete")
 # Run the async main function
 if __name__ == "__main__":
