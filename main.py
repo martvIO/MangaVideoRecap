@@ -107,10 +107,9 @@ async def main(manga,chapter):
 
 logger.info("Processing complete")
 
-# Run the async main function
 if __name__ == "__main__":
-    manga = "Seraph of the end"
-    start_chapter = 9
-    end_chapter = 12
-    for i in range(start_chapter,end_chapter+1):
-        asyncio.run(main(manga,i))
+    manga = input("Enter the manga name: ")
+    start_chapter = int(input("Enter the starting chapter: "))
+    end_chapter = int(input("Enter the ending chapter: "))
+    for i in range(start_chapter, end_chapter + 1):
+        asyncio.run(main(manga, i))
