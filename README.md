@@ -32,13 +32,10 @@
 <p align="center">
   <br>
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
-    <video controls width="600">
-      <source src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" type="video/mp4">
-      Your browser does not support the video tag.
+    <video src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" controls width="600">
     </video>
   </a>
 </p>
-[![Watch a demo](https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif)](https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4)
 <!-- Contributing -->
 <h2 id="contributing">🤝 Contributing</h2>
 <p>Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to modify. Your contributions make this project better! ✨</p>
