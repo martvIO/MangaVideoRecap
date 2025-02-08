@@ -29,12 +29,10 @@
 <!-- Demo -->
 <h2 id="demo">🎬 Demo</h2>
 <p>Here’s a quick preview of how the manga recap video looks like:</p>
-<p align="center">
-  <br>
-  <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
-  https://github.com/user-attachments/assets/e2c4b262-00fe-4773-adb2-97d520b76508
-  </a>
-</p>
+
+
+https://github.com/user-attachments/assets/92fa9151-c159-4f32-b120-5b7dbef9bbd0
+
 
 <!-- Contributing -->
 <h2 id="contributing">🤝 Contributing</h2>
