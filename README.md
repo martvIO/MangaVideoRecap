@@ -30,9 +30,6 @@
 <h2 id="demo">🎬 Demo</h2>
 <p>Here’s a quick preview of how the manga recap video looks like:</p>
 <p align="center">
-  <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif">
-    <img src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif" alt="Manga Recap Demo" width="600">
-  </a>
   <br>
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
     <video controls width="600">
