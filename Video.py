@@ -22,7 +22,8 @@ def create_video(img_path: str, audio_clips_dir: str, output_video: str) -> None
         video.write_videofile(
             output_video, 
             codec="libx264",  # You can also use 'h264_nvenc' for NVIDIA GPUs
-            fps=24
+            fps=24,
+            temp_audiofile="temp/temp_audiofile"
         )
     except:
         pass
