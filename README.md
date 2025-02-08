@@ -32,7 +32,7 @@
 <p align="center">
   <br>
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
-    <video src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" controls width="600">
+    <video src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" width="600">
     </video>
   </a>
 </p>
