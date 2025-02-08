@@ -38,7 +38,7 @@
     </video>
   </a>
 </p>
-
+[![Watch a demo](https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif)](https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4)
 <!-- Contributing -->
 <h2 id="contributing">🤝 Contributing</h2>
 <p>Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to modify. Your contributions make this project better! ✨</p>
