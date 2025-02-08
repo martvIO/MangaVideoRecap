@@ -33,6 +33,9 @@
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif">
     <img src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif" alt="Manga Recap Demo" width="600">
   </a>
+  <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
+    <video src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" alt="Manga Recap Demo" width="600">
+  </a>
 </p>
 
 <!-- Contributing -->
