@@ -32,15 +32,9 @@
 <p align="center">
   <br>
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
-    <video src="https://github.com/martvIO/MangaVideoRecap/raw/refs/heads/main/Demo/demo.mp4" controls width="600">
-    </video>
+  https://github.com/user-attachments/assets/e2c4b262-00fe-4773-adb2-97d520b76508
   </a>
 </p>
-
-
-
-https://github.com/user-attachments/assets/e2c4b262-00fe-4773-adb2-97d520b76508
-
 
 <!-- Contributing -->
 <h2 id="contributing">🤝 Contributing</h2>
