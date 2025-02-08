@@ -26,6 +26,3 @@ def split_video(input_video):
     video.close()
     print("Video splitting complete!")
 
-if __name__ == "__main__":
-    input_video = input("Enter the path to the video file: ")
-    split_video(input_video)

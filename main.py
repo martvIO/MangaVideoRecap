@@ -1,43 +1,12 @@
-import re
-from Logger import get_logger
-import asyncio
-from utils import *
-from manga import ai
-from cut import crop
-from TTS import tts
-import os
-from Video import create_video
-import glob
+from Utils.Logger import get_logger
+from Utils.utils import *
+from Utils.manga import ai
+from Utils.cut import crop
+from Utils.TTS import tts
+from Utils.Video import create_video
+import glob, os, re, asyncio
 
 logger = get_logger("Main")
-
-def _contains_alphabet(text):
-    """Check if the given text contains any alphabetic character."""
-    return any(char.isalpha() for char in text)
-
-def get_Chapter_information(manga, Chapter):
-    """Retrieve chapter pages and character data for the given manga and chapter."""
-    logger.info(f"Processing manga: {manga}, Chapter: {Chapter}")
-    Chapter_pages = load_chapter_in_manga(manga, Chapter)
-    characters_data = get_characters_names("character_images")
-    os.makedirs('temp', exist_ok=True)  # Ensure the temp directory exists
-    return (Chapter_pages, characters_data)
-
-def is_text_inside_panel(text, panel):
-    """Check if a text box is fully contained within a panel."""
-    x1_t, y1_t, x2_t, y2_t = text
-    x1_p, y1_p, x2_p, y2_p = panel
-    return x1_p <= x1_t and y1_p <= y1_t and x2_p >= x2_t and y2_p >= y2_t
-
-def assign_texts_to_panels(panels, texts, ocr):
-    """Assign detected text to their corresponding manga panels."""
-    panel_texts = {i: [] for i in range(len(panels))}
-    for text_idx, text in enumerate(texts):
-        for panel_idx, panel in enumerate(panels):
-            if is_text_inside_panel(text, panel):
-                panel_texts[panel_idx].append(ocr[text_idx])
-                break  # Stop checking once the text is assigned
-    return panel_texts
 
 async def main(manga, chapter):
     """Process the given manga chapter by analyzing and generating content."""
@@ -67,7 +36,7 @@ async def main(manga, chapter):
         # Generate TTS audio for extracted texts
         for panel_idx, texts in panel_text_mapping.items():
             for i, text in enumerate(texts):
-                if _contains_alphabet(text):  
+                if contains_alphabet(text):  
                     await tts(text, saving_path=f"{dir}/{panel_idx}", index=i)
         
         # Generate videos combining cropped panels and corresponding TTS audio
