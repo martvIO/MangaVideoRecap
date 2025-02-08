@@ -28,7 +28,7 @@ python main.py
 
 Here's a quick preview of how the manga recap video looks like:
 
-[![Watch the demo]](https://github.com/martvIO/MangaVideoRecap/Demo/demo.gif)
+[![Watch the demo]](https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif)
 
 ## 🤝 Contributing
 
