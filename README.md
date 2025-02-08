@@ -1,45 +1,48 @@
-# 📖 Manga Video Recap 🎥
+<h1 align="center"> 📖 Manga Video Recap 🎥 </h1>
 
-This is a fully functional Python script that uses a pre-trained AI model to generate manga recap videos effortlessly! 🚀
+<p align="center">
+  This is a fully functional Python script that uses a pre-trained AI model to generate manga recap videos effortlessly! 🚀
+</p>
 
-## 🔧 Installation
+<!-- Table of Contents -->
+<h2>Table of Contents</h2>
+<ul>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#demo">Demo</a></li>
+  <li><a href="#contributing">Contributing</a></li>
+  <li><a href="#license">License</a></li>
+</ul>
 
-You can install this script by running this command with [Git](https://git-scm.com/downloads):
+<!-- Installation -->
+<h2 id="installation">🔧 Installation</h2>
+<p>To get started, you can install this script by cloning the repository using <a href="https://git-scm.com/downloads">Git</a>:</p>
+<pre><code>git clone https://github.com/martvIO/MangaVideoRecap</code></pre>
+<p>Then, install all the required dependencies:</p>
+<pre><code>pip install -r requirements.txt</code></pre>
 
-```bash
-git clone https://github.com/martvIO/MangaVideoRecap
-```
+<!-- Usage -->
+<h2 id="usage">▶️ Usage</h2>
+<p>Run the script with the following command:</p>
+<pre><code>python main.py</code></pre>
 
-Then, install all the required dependencies:
+<!-- Demo -->
+<h2 id="demo">🎬 Demo</h2>
+<p>Here’s a quick preview of how the manga recap video looks like:</p>
+<p align="center">
+  <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif">
+    <img src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif" alt="Manga Recap Demo" width="600">
+  </a>
+</p>
 
-```cmd
-pip install -r requirements.txt
-```
+<!-- Contributing -->
+<h2 id="contributing">🤝 Contributing</h2>
+<p>Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to modify. Your contributions make this project better! ✨</p>
 
-## ▶️ Usage
-
-Run the script with:
-
-```cmd
-python main.py
-```
-
-## 🎬 Demo
-
-Here's a quick preview of how the manga recap video looks like:
-
-[![Watch the demo]](https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif)
-
-## 🤝 Contributing
-
-Pull requests are welcome! For major changes, please open an issue first
-to discuss what you'd like to modify. Your contributions make this project better! ✨
-
-## 📜 License
-
-This project utilizes the [magiv2](https://huggingface.co/ragavsachdeva/magiv2) AI model.
-
-```
+<!-- License -->
+<h2 id="license">📜 License</h2>
+<p>This project utilizes the <a href="https://huggingface.co/ragavsachdeva/magiv2">magiv2</a> AI model.</p>
+<pre><code>
 @misc{magiv2,
       title={Tails Tell Tales: Chapter-Wide Manga Transcriptions with Character Names}, 
       author={Ragav Sachdeva and Gyungin Shin and Andrew Zisserman},
@@ -49,4 +52,4 @@ This project utilizes the [magiv2](https://huggingface.co/ragavsachdeva/magiv2) 
       primaryClass={cs.CV},
       url={https://arxiv.org/abs/2408.00298}, 
 }
-```
+</code></pre>
