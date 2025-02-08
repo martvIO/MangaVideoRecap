@@ -80,7 +80,7 @@ def download_image(name, url):
 def download_all_images(urls):
     threads = []
     for i in range(len(urls)):
-        t = threading.Thread(target=download_image, args=(str(i + 1) + ".jpg", urls[i]))
+        t = threading.Thread(target=download_image, args=(f"panel_{str(i + 1)}.jpg", urls[i]))
         threads.append(t)
         t.start()
     for thread in threads:
@@ -124,6 +124,7 @@ def download_manga(name, url):
     pages = page_links(url)
     num = len(pages)
     print("Downloading " + str(num) + " pages")
+    name = str(name).split(":")[0]
     path = os.path.join(DIR, name)
     if not os.path.exists(path):
         os.mkdir(path)
@@ -131,8 +132,7 @@ def download_manga(name, url):
     download_all_images(pages)
     imgs = [str(i + 1) + ".jpg" for i in range(num)]
     pdfs = [str(i + 1) + ".pdf" for i in range(num)]
-    convert_to_pdf(name, imgs, pdfs, path)
-
+    
 def chapter_links(URL) -> dict:
     retry_attempts = 5
     for attempt in range(retry_attempts):
