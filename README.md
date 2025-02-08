@@ -33,8 +33,12 @@
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif">
     <img src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.gif" alt="Manga Recap Demo" width="600">
   </a>
+  <br>
   <a href="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4">
-    <video src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" alt="Manga Recap Demo" width="600">
+    <video controls width="600">
+      <source src="https://github.com/martvIO/MangaVideoRecap/blob/main/Demo/demo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </a>
 </p>
 
